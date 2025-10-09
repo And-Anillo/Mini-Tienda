@@ -212,7 +212,119 @@ public class MiniTienda {
         JOptionPane.showMessageDialog(null, ticketFinal, "Ticket Final", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public static void main(String[] args) {
+    // Implementación de Estadísticas (TAREA 4.1)
+    private void mostrarEstadisticas() {
+        if (listaProductos.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No hay productos para estadísticas.");
+            return;
+        }
 
+        Producto masCaro = null;
+        Producto masBarato = null;
+
+        // Inicializar con el primer producto
+        if (!listaProductos.isEmpty()) {
+            masCaro = listaProductos.get(0);
+            masBarato = listaProductos.get(0);
+        }
+
+        // Recorre y compara
+        for (Producto p : listaProductos) {
+            if (p.getPrecio() > masCaro.getPrecio()) {
+                masCaro = p;
+            }
+            if (p.getPrecio() < masBarato.getPrecio()) {
+                masBarato = p;
+            }
+        }
+
+        String stats = "===== Estadísticas =====\n\n";
+        stats += "Producto más caro:\n" + masCaro.toString() + "\n\n";
+        stats += "Producto más barato:\n" + masBarato.toString();
+
+        JOptionPane.showMessageDialog(null, stats, "Estadísticas", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    // Implementación de Buscar producto (TAREA 4.2)
+    private void buscarProducto() {
+        String busqueda = validarString("Ingrese nombre (o parte) para buscar:");
+        if (busqueda == null) {
+            return;
+        }
+
+        StringBuilder resultados = new StringBuilder("===== Resultados de Búsqueda =====\n");
+        boolean encontrado = false;
+
+        // Permite coincidencias parciales por nombre
+        for (Producto p : listaProductos) {
+            if (p.getNombre().toLowerCase().contains(busqueda.toLowerCase())) {
+                resultados.append(p.toString()).append("\n");
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado) {
+            JOptionPane.showMessageDialog(null, "No se encontraron coincidencias.", "Búsqueda", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, resultados.toString(), "Resultados", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    // --- VALIDACIONES (TAREA 4.3 y 4.4) ---
+    // Valida que el String no sea vacío/nulo
+    private String validarString(String mensaje) {
+        String input = JOptionPane.showInputDialog(null, mensaje);
+        if (input == null) {
+            return null; // Cancelado
+        }
+        if (input.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se permiten valores vacíos.", "Validación", JOptionPane.ERROR_MESSAGE);
+            return validarString(mensaje); // Pide de nuevo
+        }
+        return input.trim();
+    }
+
+    // Valida double, NumberFormatException, y que sea > 0
+    private double validarDouble(String mensaje) {
+        String input = JOptionPane.showInputDialog(null, mensaje);
+        if (input == null) {
+            return 0.0; // Cancelado
+        }
+        try {
+            double valor = Double.parseDouble(input.trim());
+            if (valor <= 0) {
+                JOptionPane.showMessageDialog(null, "El valor debe ser positivo (> 0).", "Validación", JOptionPane.ERROR_MESSAGE);
+                return validarDouble(mensaje); // Pide de nuevo
+            }
+            return valor;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error: Ingrese un valor numérico válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return validarDouble(mensaje); // Pide de nuevo
+        }
+    }
+
+    // Valida int, NumberFormatException, y que sea >= 0
+    private int validarInt(String mensaje) {
+        String input = JOptionPane.showInputDialog(null, mensaje);
+        if (input == null) {
+            return -1; // Cancelado
+        }
+        try {
+            int valor = Integer.parseInt(input.trim());
+            if (valor < 0) {
+                JOptionPane.showMessageDialog(null, "El valor no puede ser negativo.", "Validación", JOptionPane.ERROR_MESSAGE);
+                return validarInt(mensaje); // Pide de nuevo
+            }
+            return valor;
+        } catch (NumberFormatException e) {
+            // Manejar NumberFormatException
+            JOptionPane.showMessageDialog(null, "Error: Ingrese un valor entero válido.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return validarInt(mensaje); // Pide de nuevo
+        }
+    }
+
+    public static void main(String[] args) {
+        MiniTienda app = new MiniTienda();
+        app.iniciar();
     }
 }
