@@ -27,13 +27,13 @@ public class MiniTienda {
 
         while (true) {
             String seleccion = (String) JOptionPane.showInputDialog(
-                    null,
-                    "Selecciona una opción:",
-                    "Mini-Tienda - Menú Principal",
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    opciones,
-                    opciones[0]
+                null,
+                "Selecciona una opción:",
+                "Mini-Tienda - Menú Principal",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opciones,
+                opciones[0]
             );
 
             if (seleccion == null || seleccion.equals("Salir")) {
@@ -42,18 +42,12 @@ public class MiniTienda {
             }
 
             switch (seleccion) {
-                case "Agregar producto" ->
-                    agregarProducto();
-                case "Listar inventario" ->
-                    listarInventario();
-                case "Actualizar precio" ->
-                    actualizarPrecio();
-                case "Actualizar stock" ->
-                    actualizarStock();
-                case "Eliminar producto" ->
-                    eliminarProducto();
-                case "Buscar producto por nombre" ->
-                    buscarPorNombre();
+                case "Agregar producto" -> agregarProducto();
+                case "Listar inventario" -> listarInventario();
+                case "Actualizar precio" -> actualizarPrecio();
+                case "Actualizar stock" -> actualizarStock();
+                case "Eliminar producto" -> eliminarProducto();
+                case "Buscar producto por nombre" -> buscarPorNombre();
             }
         }
     }
@@ -168,13 +162,13 @@ public class MiniTienda {
     }
 
     private static void mostrarResumen() {
-        String resumen = String.format(
-                "Resumen de operaciones:\n"
-                + "- Altas: %d\n"
-                + "- Bajas: %d\n"
-                + "- Actualizaciones: %d\n"
-                + "¡Gracias por usar la Mini-Tienda!",
-                operacionesAlta, operacionesBaja, operacionesActualizacion
+        String resumen = String.format("""
+                                       Resumen de operaciones:
+                                       - Altas: %d
+                                       - Bajas: %d
+                                       - Actualizaciones: %d
+                                       \u00a1Gracias por usar la Mini-Tienda!""",
+            operacionesAlta, operacionesBaja, operacionesActualizacion
         );
         JOptionPane.showMessageDialog(null, resumen, "Resumen Final", JOptionPane.INFORMATION_MESSAGE);
     }
