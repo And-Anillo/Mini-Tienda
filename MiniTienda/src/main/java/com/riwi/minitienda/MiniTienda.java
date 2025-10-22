@@ -1,4 +1,4 @@
-package com.minitienda;
+package com.riwi.minitienda;
 
 public class MiniTienda {
 
